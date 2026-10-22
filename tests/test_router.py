@@ -11,7 +11,7 @@ from router.core import recommend
 from router.__main__ import evaluate
 
 ROOT = Path(__file__).resolve().parents[1]
-LEDGER = ROOT.parent / 'strategy-8k-ledger'
+LEDGER = ROOT / 'fixtures/ledger-v1'
 
 
 class RouterTests(unittest.TestCase):
@@ -142,3 +142,25 @@ class RouterTests(unittest.TestCase):
         out = recommend(self.s, caps)
         self.assertEqual(out['allocations'], [])
         self.assertEqual(out['unfilled_net_usd'], self.s['target_net_usd'])
+
+    def test_invalid_week_chronology_rejected(self):
+        scratch = Path.home() / 'scratch/strategy-issuance-router'
+        scratch.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=scratch) as temp:
+            data = Path(temp) / 'data'; data.mkdir()
+            for name in ('weekly.csv', 'instrument_weekly.csv'):
+                text = (LEDGER / 'data' / name).read_text()
+                if name == 'weekly.csv':
+                    text = text.replace('2026-10-12', '2099-01-01')
+                (data / name).write_text(text)
+            with self.assertRaisesRegex(ValueError, 'chronology'):
+                io.read_ledger(temp)
+
+    def test_json_decimal_precision_preserved(self):
+        original = (ROOT / 'examples/synthetic.json').read_text()
+        scratch = Path.home() / 'scratch/strategy-issuance-router'
+        scratch.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=scratch) as temp:
+            path = Path(temp) / 'scenario.json'
+            path.write_text(original.replace('25000000,', '9007199254740993.01,', 1))
+            self.assertEqual(io.scenario(path)['target_net_usd'], D('9007199254740993.01'))

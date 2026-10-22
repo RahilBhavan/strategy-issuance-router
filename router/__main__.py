@@ -1,7 +1,7 @@
 """python -m router --scenario examples/synthetic.json [--ledger PATH]"""
 import argparse
 import json
-from decimal import Decimal
+from decimal import Decimal, DecimalException
 from pathlib import Path
 from . import io
 from .core import recommend
@@ -38,13 +38,13 @@ def evaluate(scenario, weeks, inst):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--scenario', required=True)
-    p.add_argument('--ledger', default=str(Path(__file__).resolve().parents[2] / 'strategy-8k-ledger'))
+    p.add_argument('--ledger', default=str(Path(__file__).resolve().parents[1] / 'fixtures' / 'ledger-v1'))
     args = p.parse_args()
     try:
         data = io.scenario(args.scenario)
         weeks, inst = io.read_ledger(args.ledger)
         print(json.dumps(evaluate(data, weeks, inst), default=str, indent=2, sort_keys=True))
-    except (ValueError, KeyError, OSError, TypeError) as e:
+    except (ValueError, KeyError, OSError, TypeError, DecimalException) as e:
         p.exit(2, f'error: {e}\n')
 
 

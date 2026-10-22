@@ -1,5 +1,15 @@
 """Pure one-year financing-cost proxy and deterministic greedy allocation."""
-from decimal import Decimal as D
+from decimal import Decimal as D, localcontext, ROUND_DOWN
+
+
+FILL_TOLERANCE_USD = D('1e-18')
+
+
+def bounded_quotient(numerator, denominator):
+    # A rounded-up quotient can exceed a binding target or dividend budget.
+    with localcontext() as context:
+        context.rounding = ROUND_DOWN
+        return numerator / denominator
 
 
 def recommend(scenario, capacities):
@@ -30,9 +40,9 @@ def recommend(scenario, capacities):
     for score, ticker, cost, annual, limit in sorted(choices):
         if remaining <= 0:
             break
-        gross = min(limit, remaining / (1-fee))
+        gross = min(limit, bounded_quotient(remaining, 1-fee))
         if annual:
-            gross = min(gross, budget / annual)
+            gross = min(gross, bounded_quotient(budget, annual))
         if gross <= 0:
             continue
         net = gross * (1-fee)
@@ -50,4 +60,4 @@ def recommend(scenario, capacities):
             'missing_market_inputs': missing,
             'missing_capacity': sorted(set(scenario['limits_usd']) - set(capacities)), 'disabled_without_limit': disabled,
             'dividend_budget_remaining_usd': budget,
-            'status': 'incomplete_inputs' if missing or set(scenario['limits_usd']) - set(capacities) else 'filled' if remaining == 0 else 'constrained'}
+            'status': 'incomplete_inputs' if missing or set(scenario['limits_usd']) - set(capacities) else 'filled' if remaining <= FILL_TOLERANCE_USD else 'constrained'}

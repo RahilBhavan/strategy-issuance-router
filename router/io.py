@@ -29,7 +29,7 @@ def number(value, name, positive=False):
 
 
 def scenario(path):
-    data = json.loads(Path(path).read_text())
+    data = json.loads(Path(path).read_text(), parse_float=D)
     if not isinstance(data, dict) or REQUIRED - data.keys() or data.keys() - REQUIRED - {'mnav'}:
         raise ValueError('scenario missing required fields or contains unknown fields')
     if not isinstance(data['label'], str) or not data['label'].strip():
@@ -57,6 +57,16 @@ def read_ledger(root):
         with (Path(root) / 'data' / name).open() as f:
             return list(csv.DictReader(f))
     weeks, inst = read('weekly.csv'), read('instrument_weekly.csv')
+    week_ids = set()
+    for r in weeks:
+        for k in ('filed', 'period_start', 'period_end'):
+            date(r[k])
+        if r['period_start'] > r['period_end'] or r['period_end'] > r['filed']:
+            raise ValueError('invalid ledger week chronology')
+        if r['period_end'] in week_ids:
+            raise ValueError('duplicate ledger week')
+        week_ids.add(r['period_end'])
+    week_map = {(r['accession'], r['period_end']): r for r in weeks}
     ids = set()
     for r in inst:
         identity = tuple(r[k] for k in ('accession', 'period_end', 'ticker', 'action', 'program'))
@@ -69,6 +79,9 @@ def read_ledger(root):
             date(r[k])
         if r['period_start'] > r['period_end'] or r['period_end'] > r['filed']:
             raise ValueError('invalid ledger period/filing chronology')
+        week = week_map.get((r['accession'], r['period_end']))
+        if week is None or any(r[k] != week[k] for k in ('filed', 'period_start', 'doc_url')):
+            raise ValueError('invalid ledger instrument/week join')
         for k in ('available_usd', 'amount_usd'):
             if r[k]:
                 number(r[k], k)

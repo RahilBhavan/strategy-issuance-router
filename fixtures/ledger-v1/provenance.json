@@ -1,0 +1,23 @@
+{
+  "schema": "strategy-ledger-csv-v1",
+  "upstream_repository": "https://github.com/RahilBhavan/strategy-8k-ledger",
+  "upstream_commit": "3c95b9e061876907ebefc7e3153f72d0b2e205bf",
+  "source_as_of": "2026-10-21",
+  "selection_period_ends": [
+    "2026-10-04",
+    "2026-10-18"
+  ],
+  "files": {
+    "data/weekly.csv": {
+      "sha256": "b4574460350692eb6b8a0667839998e9bd4d6fd91e2d47fed89af2f9e6a88c44",
+      "rows": 2,
+      "upstream_sha256": "0387d872ad0dc08791e4202b1fb50ce1fceda0ae91ea90a6567d43cd84aeb1f8"
+    },
+    "data/instrument_weekly.csv": {
+      "sha256": "f796856a29a057287e69d8bd7624b3c16e5867e5f96e3a463f1b949e7378327e",
+      "rows": 20,
+      "upstream_sha256": "66c17c2956cf8ce346786301ecd3ea79053936499da75d62a7bc559cd55f0a9c"
+    }
+  },
+  "source_manifest_sha256": "2c93fdcc62e845d3633a5bfd96d26e19bf927838a12d1d56fd492c696030f53e"
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "path": "000119312526413164/mstr-20261005.htm",
+    "url": "https://www.sec.gov/Archives/edgar/data/1050446/000119312526413164/mstr-20261005.htm",
+    "fetched_utc": "2026-10-22T00:55:06Z",
+    "sha256": "bb06b790576ba66555da340a3636475b6cd3f5ad0117225350908867ef1a03c1",
+    "bytes": "326889"
+  },
+  {
+    "path": "000119312526424688/mstr-20261019.htm",
+    "url": "https://www.sec.gov/Archives/edgar/data/1050446/000119312526424688/mstr-20261019.htm",
+    "fetched_utc": "2026-10-22T00:55:06Z",
+    "sha256": "758fffb5bae03a2b52568ef75168f7fe710e41b46f1092e96fd72425865c99f3",
+    "bytes": "207323"
+  }
+]
