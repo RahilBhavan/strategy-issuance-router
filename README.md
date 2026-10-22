@@ -43,6 +43,8 @@ Observed: **24 tests pass**. Two fresh CLI processes produce byte-identical outp
 
 ## Documentation
 
+- [Public design system](DESIGN.md): Rahil Design 3.3.0, shared tokens and visual review rules.
+
 - [Spec](docs/spec.md): scope and acceptance criteria.
 - [Method](docs/method.md): objective, asymmetry, constraints and date boundary.
 - [Sources](docs/sources.md): observed disclosures versus invented inputs.
