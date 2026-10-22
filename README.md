@@ -1,5 +1,7 @@
 # Strategy issuance router: compare financing rules with weekly issuance
 
+[![Offline verification](https://github.com/RahilBhavan/strategy-issuance-router/actions/workflows/ci.yml/badge.svg)](https://github.com/RahilBhavan/strategy-issuance-router/actions/workflows/ci.yml)
+
 ![Synthetic allocation: MSTR $3.11M, STRK $9.95M, STRD $9.95M and STRF $1.99M versus actual MSTR $22M and zero preferred issuance. Scenario replay, not a backtest.](figures/result.svg)
 
 A deterministic Python CLI allocates a user-defined net funding target under disclosed ATM capacity, instrument limits and an annual dividend budget. It compares the recommendation with later weekly issuance. The market inputs are **synthetic**; capacity and actual issuance come from a pinned, bundled subset of the public SEC-derived ledger.

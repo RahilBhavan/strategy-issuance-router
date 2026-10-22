@@ -2,6 +2,8 @@
 
 Purpose: reproduce the offline demo without a sibling checkout or network access.
 
+Reviewed public ledger pin: [`94c70044aaf14eea2ffb53deffd1a1f36bdec52e`](https://github.com/RahilBhavan/strategy-8k-ledger/tree/94c70044aaf14eea2ffb53deffd1a1f36bdec52e), schema **1.0.0**. Its `data/contract.json` hash is also pinned.
+
 The default CLI reads `fixtures/ledger-v1/data/weekly.csv` and `instrument_weekly.csv`.
 These are selected public SEC-derived rows from the ledger's v1 CSV contract, not a
 copy of its implementation. `provenance.json` pins the upstream repository/commit,
@@ -20,10 +22,10 @@ To reproduce from the pinned public ledger commit in `provenance.json`:
 
 ```bash
 mkdir -p ~/scratch/strategy-issuance-router
-# Clone the upstream URL and checkout the exact upstream_commit from provenance.json.
-# In that ledger checkout:
-python -m ledger restore
-# Back in this router checkout, verify the full artifacts and selected rows:
+git clone https://github.com/RahilBhavan/strategy-8k-ledger.git ~/scratch/strategy-issuance-router/ledger
+# From the router checkout:
+git -C ~/scratch/strategy-issuance-router/ledger checkout --detach 94c70044aaf14eea2ffb53deffd1a1f36bdec52e
+(cd ~/scratch/strategy-issuance-router/ledger && python -m ledger restore)
 python scripts/verify_dependency.py ~/scratch/strategy-issuance-router/ledger
 ```
 
