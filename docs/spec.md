@@ -1,6 +1,9 @@
 # Issuance router v1 scope and acceptance
 
-Agreed 2026-10-21. Local deterministic CLI consuming the adjacent weekly ledger; no trades or publication.
+Agreed 2026-10-21. Deterministic CLI consuming the versioned weekly-ledger CSV contract; no trades.
+
+Publication update: reviewed source is authorized for a public GitHub repository. The
+bundled demo snapshot replaces the original mutable sibling dependency.
 
 - Accept a dated scenario: decision cutoff, target proceeds, BTC spot, common mNAV, preferred yields, fee fraction, instrument limits and annual dividend budget.
 - Use only ledger capacities filed strictly before the target period starts. Reject future-dated market inputs and invalid/nonfinite numbers; enumerate missing inputs instead of inferring them from subsequent issuance.

@@ -1,60 +1,68 @@
 # Strategy issuance router: compare financing rules with weekly issuance
 
-This local Python CLI allocates a user-defined funding target under disclosed ATM capacity, instrument limits and an annual dividend budget. It compares the result with actual weekly issuance after making the recommendation. The included market inputs are explicitly synthetic; the capacity and actual issuance come from SEC filings in the adjacent ledger.
+![Synthetic allocation: MSTR $3.11M, STRK $9.95M, STRD $9.95M and STRF $1.99M versus actual MSTR $22M and zero preferred issuance. Scenario replay, not a backtest.](figures/result.svg)
+
+A deterministic Python CLI allocates a user-defined net funding target under disclosed ATM capacity, instrument limits and an annual dividend budget. It compares the recommendation with later weekly issuance. The market inputs are **synthetic**; capacity and actual issuance come from a pinned, bundled subset of the public SEC-derived ledger.
 
 ## What it does
 
-- Accepts BTC spot, common mNAV, preferred annual cash yields, fees, funding target and limits in dated JSON.
-- Ranks instruments by an explicit one-year cost proxy, applies capacity/budget constraints and reports unfilled funding and missing inputs.
-- Enforces a decision date before the target period and excludes filings after that decision. Actual issuance never sets the recommendation.
-- Replays an October 9, 2026 synthetic scenario against actual October 12–18 issuance. `examples/result.json` includes $22M actual MSTR net proceeds and source URLs; it is not a historical performance claim.
+- Ranks instruments using an explicit one-year cost proxy and reports unfilled funding, missing inputs and capacity evidence.
+- Requires a decision before the target period; later issuance amounts do not influence allocation.
+- Replays an October 9, 2026 synthetic $25M target against October 12–18 actual issuance: **$22M MSTR net proceeds**, zero preferred ATM proceeds ([result](examples/result.json)).
+- Runs offline with no sibling checkout, package dependencies, credentials or paid feed.
 
 ## How it works
 
-`router/io.py` validates JSON and ledger CSVs and selects capacity known by cutoff. The pure rule in `router/core.py` ranks cost per net dollar: common proxy cost is gross proceeds / mNAV; preferred proxy cost is gross proceeds × annual cash yield. `router/__main__.py` adds the later actual comparison only after allocation. [Method](docs/method.md) explains the asymmetry and omitted liabilities.
+`router/io.py` validates scenario JSON and the ledger CSV contract, then selects capacity known by the cutoff. `router/core.py` greedily ranks proxy cost per net dollar: gross proceeds / mNAV for common, gross proceeds × annual cash yield for preferred. `router/__main__.py` adds actual comparisons after allocation. The proxies have different economic meanings; [method](docs/method.md) explains the simplification and precision policy.
 
 ## Run it
 
-Python 3.11+; tested with Python 3.14.7. No package dependencies, credentials or paid market feed. Keep `strategy-8k-ledger` adjacent, or pass `--ledger /path/to/strategy-8k-ledger`.
+Python 3.11+; locally tested with 3.14.7; CI pins 3.14.0. No installation step or network access is needed after cloning.
 
 ```bash
-cd /home/rahil/projects/strategy-8k-ledger
-python -m ledger restore
-cd /home/rahil/projects/strategy-issuance-router
+git clone https://github.com/RahilBhavan/strategy-issuance-router.git
+cd strategy-issuance-router
 python -m unittest discover -s tests -v
 python -m router --scenario examples/synthetic.json
+python -m compileall -q router scripts tests
+python scripts/render_result.py --check
 ```
 
-Observed: **17 tests pass**, including real-source comparison, altered-future-data independence, budgets, missing inputs, duplicate rows, invalid/nonfinite numbers and deterministic CLI replay. The ledger tests verify the upstream extraction separately.
+Observed: **24 tests pass**. Two fresh CLI processes produce byte-identical output matching `examples/result.json`. The default fixture covers only the demo dates. For other dates, use `--ledger /path/to/restored-ledger`; see the [versioned dependency contract](docs/dependency.md).
 
 ## Repository layout
 
-- `router/`: validation, capacity selection, pure rule and CLI.
-- `examples/`: labeled synthetic inputs and deterministic output over real ledger data.
-- `tests/`: rule, boundary and CLI behavior checks.
-- `docs/`: scope, objective, sources and verification.
+- `router/`: input boundary, capacity selection, pure rule and CLI.
+- `fixtures/ledger-v1/`: selected public records and hash/provenance contract.
+- `examples/`: labeled synthetic inputs and deterministic result.
+- `figures/`, `scripts/`: generated result table and reproducibility checks.
+- `tests/`: rule, boundary, precision and CLI regressions.
+- `docs/`: methodology, source interpretation and verification.
 
 ## Documentation
 
-- [Spec](docs/spec.md): agreed acceptance criteria.
-- [Method](docs/method.md): objective, formulas, assumptions and time boundary.
-- [Sources](docs/sources.md): observed filings versus invented market inputs.
-- [Verification](docs/verification.md): commands and tested limits.
+- [Spec](docs/spec.md): scope and acceptance criteria.
+- [Method](docs/method.md): objective, asymmetry, constraints and date boundary.
+- [Sources](docs/sources.md): observed disclosures versus invented inputs.
+- [Dependency](docs/dependency.md): pinned ledger contract and artifact verification.
+- [Verification](docs/verification.md): exact checks and audit findings.
+- [Publication](docs/publication.md): publication and clean-clone receipt.
 
 ## Sources
 
-The adjacent ledger freezes 97 weekly observations and 432 program/action rows from SEC EDGAR CIK 1050446, through October 19, 2026. Each selected capacity has a program, as-of date, filing date and URL. The ledger holds source-byte hashes; this router reads its normalized CSVs. See the [October 19 actual issuance filing](https://www.sec.gov/Archives/edgar/data/1050446/000119312526424688/mstr-20261019.htm) and [source coverage](docs/sources.md), reviewed October 21.
+The bundled selection contains two weekly rows and ten ATM instrument rows, with original SEC URLs. [Provenance](fixtures/ledger-v1/provenance.json) pins the ledger commit and artifact SHA-256 hashes; [source manifest](fixtures/ledger-v1/data/source-manifest.json) records original HTML hashes and fetch times. [October 5 capacity](https://www.sec.gov/Archives/edgar/data/1050446/000119312526413164/mstr-20261005.htm) and [October 19 actual issuance](https://www.sec.gov/Archives/edgar/data/1050446/000119312526424688/mstr-20261019.htm) were reviewed against primary filings. Source snapshot: October 21, 2026; UTC fetch dates are separate.
 
 ## Scope and limits
 
-- Independent local scenario tool, not affiliated with Strategy. No execution, advice, account access or automation.
-- No observed market series: mNAV, BTC, yields, fees and constraints in the demo are synthetic. Dates are user assertions.
-- One-year cash cost and common NAV dilution are simplifying proxies with different economic meanings; no claim about optimal real treasury actions.
-- Disclosed capacity may be stale. EUR/STRE is excluded without an FX model. Liquidity, legal issuance constraints, conversion and principal claims are omitted.
-- No inference about the pending October 28 dividend vote; annual yields do not encode daily payment approval.
+- Independent scenario tool, not affiliated with Strategy. No execution, account access or trades.
+- Scenario replay, **not a historical backtest**. No independently sourced point-in-time mNAV/yield series is bundled; market dates are user assertions. No calibrated performance or optimal real treasury claim.
+- Common NAV claim and one year of preferred cash expense are asymmetric proxies. Principal, perpetual duration, conversion, taxes, liquidity and legal issuance feasibility are omitted.
+- Disclosed capacity may be stale. It is an assumed gross ceiling, not proof of tradability. EUR/STRE is excluded without FX modeling.
+- The October 28 daily-dividend proposal was **pending at the October 21 snapshot**. Annual yields do not encode approval or dividend cadence.
+- CSV validation and hashes do not certify financial data or security. The selected fixture is not a completeness claim.
 
 ## License
 
-No license file yet. No license has been selected; source filings retain their own terms.
+No license file yet. Third-party filings and data retain their own terms.
 
 Part of [Rahil Bhavan's projects](https://github.com/RahilBhavan).
