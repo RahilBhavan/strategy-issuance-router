@@ -22,7 +22,8 @@ remaining dividend budget. `metrics.constraints` reports gross user limits,
 disclosed capacity, remaining headroom and filing evidence for every eligible
 ticker, including those not used. A null capacity means unknown, not zero.
 
-For the supplied **synthetic** market scenario, router funding is $25,000,000;
+The supplied scenario is **synthetic**. Its $25M target is an illustrative amount,
+not a filed or planned raise. Router funding is $25,000,000;
 common-only funding is $24,875,000, leaving $125,000 unfilled because the $25M
 gross user limit also has to absorb the 0.5% fee. Preferred-only funding is
 $21,890,000, leaving $3,110,000 unfilled with the $2M annual dividend budget
