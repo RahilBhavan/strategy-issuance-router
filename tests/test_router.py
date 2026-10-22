@@ -51,7 +51,8 @@ class RouterTests(unittest.TestCase):
         for r in allocations:
             self.assertLessEqual(r['gross_usd'], self.caps[r['ticker']]['capacity_usd'])
             self.assertLessEqual(r['gross_usd'], self.s['limits_usd'][r['ticker']])
-        self.assertEqual([r['ticker'] for r in allocations][:3], ['STRK', 'STRD', 'STRF'])
+        self.assertEqual([(r['ticker'], r['binding_constraint']) for r in allocations],
+                         [('MSTR', 'user_limit'), ('STRK', 'target')])
 
     def test_zero_budget_allows_only_common(self):
         self.s['annual_dividend_budget_usd'] = D(0)
@@ -75,9 +76,10 @@ class RouterTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'strictly before'):
             evaluate(self.s, self.weeks, self.inst)
 
-    def test_target_missing_refused(self):
-        self.s['period_end'] = '2026-10-17'
-        with self.assertRaisesRegex(ValueError, 'missing or ambiguous'):
+    def test_forward_week_decision_inside_assumed_week_refused(self):
+        self.s['period_end'] = '2026-10-25'
+        self.s['decision_date'] = self.s['market_as_of'] = '2026-10-19'
+        with self.assertRaisesRegex(ValueError, r'strictly before the target period starts \(2026-10-19\)'):
             evaluate(self.s, self.weeks, self.inst)
 
     def test_negative_nonfinite_and_boolean_numbers(self):

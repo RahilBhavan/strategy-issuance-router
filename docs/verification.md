@@ -80,3 +80,17 @@ eligibility, shared budget/capacity/limits, missing inputs, null dilution, empty
 policy, no-lookahead, validation and deterministic CLI compatibility. Default
 replay, compileall, fixture hashes and generated SVG remain unchanged. See
 [reproduction and measured limits](financing-comparison.md).
+
+## Reader-test model update (2026-10-22)
+
+Baseline clean `003710d`: 33 tests pass. After the update: **45 tests pass** on
+Python 3.14.7. Existing tests were kept; fixtures that used STRK as a generic
+preferred now use STRF, because STRK requires conversion inputs. Expected
+allocations changed where the cost basis changed (router demo: MSTR then STRK).
+New tests check each instrument's cost per net dollar against independent
+formulas (including a Black–Scholes STRK conversion value written with
+`statistics.NormalDist`), STRK reported missing without conversion inputs,
+conversion cost rising with MSTR price and volatility, discount-rate break-even
+and ranking flip, mNAV 0.95 warning and `block`, binding constraints, forward
+weeks absent from the ledger, `--no-actuals`, display quantization, new field
+validation, the `--check` pass line and actual-issuance independence.

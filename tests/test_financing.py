@@ -18,8 +18,8 @@ class FinancingTests(unittest.TestCase):
     def setUp(self):
         self.s = {'fee_fraction': D('.1'), 'btc_usd': D(10), 'target_net_usd': D(90),
                   'annual_dividend_budget_usd': D(10), 'mnav': D(2),
-                  'limits_usd': {'MSTR': D(200), 'STRK': D(200)},
-                  'yields': {'STRK': D('.1')}, 'common_share_price_usd': D(10),
+                  'limits_usd': {'MSTR': D(200), 'STRF': D(200)},
+                  'yields': {'STRF': D('.1')}, 'common_share_price_usd': D(10),
                   'common_shares_outstanding': D(90)}
         self.caps = {t: {'capacity_usd': D(200), 'sources': [{'filed': '2026-10-05'}]}
                      for t in self.s['limits_usd']}
@@ -34,23 +34,35 @@ class FinancingTests(unittest.TestCase):
         self.assertEqual(common['gross_issued_usd'], 100)
         self.assertEqual(common['funded_net_usd'], 90)
         self.assertEqual(common['fees_usd'], 10)
-        self.assertEqual(common['common_nav_claim_proxy_usd'], 50)
+        self.assertEqual(common['common_nav_claim_usd'], 50)
         self.assertEqual(common['annual_preferred_cash_expense_usd'], 0)
         self.assertEqual(common['new_common_shares'], 10)
         self.assertEqual(common['new_common_ownership_fraction'], D('.1'))
         self.assertEqual(preferred['new_common_ownership_fraction'], 0)
         self.assertEqual(preferred['annual_preferred_cash_expense_usd'], 10)
-        self.assertEqual(preferred['common_nav_claim_proxy_usd'], 0)
-        self.assertEqual(policies['common_only']['proxy_excess_over_router_usd'], 40)
+        self.assertEqual(preferred['common_nav_claim_usd'], 0)
+        # Default 10% discount rate: $10 a year forever is worth $100, against a $50 NAV claim.
+        self.assertEqual(preferred['preferred_dividend_pv_usd'], 100)
+        self.assertEqual(policies['router']['result']['allocations'][0]['ticker'], 'MSTR')
+        self.assertEqual(policies['common_only']['claim_value_excess_over_router_usd'], 0)
+        self.assertEqual(policies['preferred_only']['claim_value_excess_over_router_usd'], 50)
         self.assertEqual(preferred['constraints'][0]['capacity_remaining_usd'], 100)
-        self.assertEqual(preferred['constraints'][0]['capacity_evidence'], self.caps['STRK']['sources'])
+        self.assertEqual(preferred['constraints'][0]['capacity_evidence'], self.caps['STRF']['sources'])
+
+    def test_discount_rate_above_break_even_flips_router_to_preferred(self):
+        self.assertEqual(self.policies()['router']['result']['break_even_discount_rate_vs_common'], {'STRF': D('.2')})
+        self.s['perpetual_discount_rate'] = D('.25')
+        router = self.policies()['router']
+        self.assertEqual(router['result']['allocations'][0]['ticker'], 'STRF')
+        self.assertEqual(router['metrics']['preferred_dividend_pv_usd'], 40)
+        self.assertEqual(router['result']['cost_basis']['perpetual_discount_rate_source'], 'scenario')
 
     def test_partial_fill_has_no_savings_claim(self):
         self.s['limits_usd']['MSTR'] = D(50)
         common = self.policies()['common_only']
         self.assertEqual(common['result']['unfilled_net_usd'], 45)
         self.assertFalse(common['full_target_comparable_with_router'])
-        self.assertIsNone(common['proxy_excess_over_router_usd'])
+        self.assertIsNone(common['claim_value_excess_over_router_usd'])
         self.assertEqual(common['metrics']['constraints'][0]['user_limit_remaining_usd'], 0)
 
     def test_shared_budget_capacity_and_user_limits(self):
@@ -74,9 +86,9 @@ class FinancingTests(unittest.TestCase):
         self.assertEqual(policies['router']['result']['status'], 'incomplete_inputs')
         self.assertEqual(policies['preferred_only']['result']['status'], 'filled')
         self.assertFalse(policies['preferred_only']['full_target_comparable_with_router'])
-        del self.caps['STRK']
-        single = self.policies()['STRK_only']
-        self.assertEqual(single['result']['missing_capacity'], ['STRK'])
+        del self.caps['STRF']
+        single = self.policies()['STRF_only']
+        self.assertEqual(single['result']['missing_capacity'], ['STRF'])
         self.assertIsNone(single['metrics']['constraints'][0]['capacity_remaining_usd'])
 
     def test_absent_dilution_inputs_are_null_not_estimated(self):
@@ -90,7 +102,7 @@ class FinancingTests(unittest.TestCase):
         preferred = self.policies()['preferred_only']
         self.assertEqual(preferred['result']['status'], 'constrained')
         self.assertEqual(preferred['metrics']['funded_net_usd'], 0)
-        self.assertIsNone(preferred['metrics']['proxy_per_funded_net_dollar'])
+        self.assertIsNone(preferred['metrics']['claim_value_per_funded_net_dollar'])
         self.assertFalse(preferred['full_target_comparable_with_router'])
 
     def test_no_lookahead_in_all_alternatives(self):
@@ -133,5 +145,5 @@ class FinancingTests(unittest.TestCase):
         for name, funded in (('router', '25000000'), ('common_only', '24875000'),
                              ('preferred_only', '21890000')):
             self.assertEqual(D(policies[name]['metrics']['funded_net_usd']), D(funded))
-        self.assertTrue(all(a['proxy_excess_over_router_usd'] is None
+        self.assertTrue(all(a['claim_value_excess_over_router_usd'] is None
                             for name, a in policies.items() if name != 'router'))

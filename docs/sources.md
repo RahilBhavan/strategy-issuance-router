@@ -42,7 +42,7 @@ including expenses, not a point-in-time spot input. No fixture or hash changed.
 Also reviewed Strategy's dated [July 31, 2025 results and capital framework](https://www.strategy.com/press/strategy-announces-second-quarter-2025-financial-results_07-31-2025)
 on 2026-10-22. It defines issuer mNAV using enterprise value divided by Bitcoin
 NAV and describes discretionary issuance thresholds. That definition reinforces
-why this router's `gross/mnav` convention is a simplified proxy, not a measured
+why this router's `gross/mnav` NAV-claim convention is a simplification, not a measured
 common ownership dilution calculation or an implementation of issuer policy.
 The older disclosure supplies no validated complete October 9, 2026 set of
 execution prices, shares, preferred yields and mNAV. No observed market fixture

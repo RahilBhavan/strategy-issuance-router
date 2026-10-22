@@ -1,120 +1,64 @@
 {
+  "actual_comparison": "compared after the recommendation was computed",
   "comparison": [
     {
-      "actual_net_usd": "22000000",
+      "actual_net_usd": "22000000.00",
       "actual_sources": [
         "https://www.sec.gov/Archives/edgar/data/1050446/000119312526424688/mstr-20261019.htm"
       ],
-      "difference_usd": "-18890000.00000000000000000000",
-      "scenario_net_usd": "3110000.000000000000000000000",
+      "difference_usd": "2875000.00",
+      "scenario_net_usd": "24875000.00",
       "ticker": "MSTR"
     },
     {
-      "actual_net_usd": "0",
+      "actual_net_usd": "0.00",
       "actual_sources": [
         "https://www.sec.gov/Archives/edgar/data/1050446/000119312526424688/mstr-20261019.htm"
       ],
-      "difference_usd": "0",
-      "scenario_net_usd": "0",
+      "difference_usd": "0.00",
+      "scenario_net_usd": "0.00",
       "ticker": "STRC"
     },
     {
-      "actual_net_usd": "0",
+      "actual_net_usd": "0.00",
       "actual_sources": [
         "https://www.sec.gov/Archives/edgar/data/1050446/000119312526424688/mstr-20261019.htm"
       ],
-      "difference_usd": "9950000.000",
-      "scenario_net_usd": "9950000.000",
+      "difference_usd": "0.00",
+      "scenario_net_usd": "0.00",
       "ticker": "STRD"
     },
     {
-      "actual_net_usd": "0",
+      "actual_net_usd": "0.00",
       "actual_sources": [
         "https://www.sec.gov/Archives/edgar/data/1050446/000119312526424688/mstr-20261019.htm"
       ],
-      "difference_usd": "1990000.000",
-      "scenario_net_usd": "1990000.000",
+      "difference_usd": "0.00",
+      "scenario_net_usd": "0.00",
       "ticker": "STRF"
     },
     {
-      "actual_net_usd": "0",
+      "actual_net_usd": "0.00",
       "actual_sources": [
         "https://www.sec.gov/Archives/edgar/data/1050446/000119312526424688/mstr-20261019.htm"
       ],
-      "difference_usd": "9950000.000",
-      "scenario_net_usd": "9950000.000",
+      "difference_usd": "125000.00",
+      "scenario_net_usd": "125000.00",
       "ticker": "STRK"
     }
   ],
   "limits": [
     "Synthetic or user-supplied market inputs; no historical market feed.",
     "Stale disclosed capacity is a scenario ceiling, not proof of tradability.",
-    "No execution, liquidity, conversion, principal liability, taxes or long-term optimality model.",
+    "No execution, liquidity, principal liability, taxes or long-term optimality model; STRK conversion uses a finite-horizon Black-Scholes stand-in.",
     "Daily dividend proposal is pending as of 2026-10-21; cadence is not used."
   ],
   "recommendation": {
     "allocations": [
       {
-        "annual_dividend_usd": "800000.00",
-        "btc_acquired_scenario": "117.0588235294117647058823529",
-        "btc_cost_proxy": "9.411764705882352941176470588",
-        "capacity_evidence": [
-          {
-            "as_of": "2026-10-04",
-            "capacity_usd": "2100000000",
-            "filed": "2026-10-05",
-            "program": "STRK Stock",
-            "url": "https://www.sec.gov/Archives/edgar/data/1050446/000119312526413164/mstr-20261005.htm"
-          }
-        ],
-        "cost_per_net_dollar": "0.08040201005025125628140703518",
-        "cost_proxy_usd": "800000.00",
-        "gross_usd": "10000000",
-        "net_usd": "9950000.000",
-        "ticker": "STRK"
-      },
-      {
-        "annual_dividend_usd": "1000000.00",
-        "btc_acquired_scenario": "117.0588235294117647058823529",
-        "btc_cost_proxy": "11.76470588235294117647058824",
-        "capacity_evidence": [
-          {
-            "as_of": "2026-10-04",
-            "capacity_usd": "4014800000",
-            "filed": "2026-10-05",
-            "program": "STRD Stock",
-            "url": "https://www.sec.gov/Archives/edgar/data/1050446/000119312526413164/mstr-20261005.htm"
-          }
-        ],
-        "cost_per_net_dollar": "0.1005025125628140703517587940",
-        "cost_proxy_usd": "1000000.00",
-        "gross_usd": "10000000",
-        "net_usd": "9950000.000",
-        "ticker": "STRD"
-      },
-      {
-        "annual_dividend_usd": "200000.00",
-        "btc_acquired_scenario": "23.41176470588235294117647059",
-        "btc_cost_proxy": "2.352941176470588235294117647",
-        "capacity_evidence": [
-          {
-            "as_of": "2026-10-04",
-            "capacity_usd": "1619300000",
-            "filed": "2026-10-05",
-            "program": "STRF Stock",
-            "url": "https://www.sec.gov/Archives/edgar/data/1050446/000119312526413164/mstr-20261005.htm"
-          }
-        ],
-        "cost_per_net_dollar": "0.1005025125628140703517587940",
-        "cost_proxy_usd": "200000.00",
-        "gross_usd": "2000000",
-        "net_usd": "1990000.000",
-        "ticker": "STRF"
-      },
-      {
-        "annual_dividend_usd": "0E-21",
-        "btc_acquired_scenario": "36.58823529411764705882352941",
-        "btc_cost_proxy": "30.64341314415213321509508326",
+        "annual_dividend_usd": "0.00",
+        "binding_constraint": "user_limit",
+        "btc_acquired_scenario": "292.64705882",
         "capacity_evidence": [
           {
             "as_of": "2026-10-04",
@@ -124,24 +68,125 @@
             "url": "https://www.sec.gov/Archives/edgar/data/1050446/000119312526413164/mstr-20261005.htm"
           }
         ],
-        "cost_per_net_dollar": "0.8375209380234505862646566164",
-        "cost_proxy_usd": "2604690.117252931323283082077",
-        "gross_usd": "3125628.140703517587939698492",
-        "net_usd": "3110000.000000000000000000000",
+        "claim_value_btc": "245.09803922",
+        "claim_value_usd": "20833333.33",
+        "conversion_value_usd": "0.00",
+        "cost_per_net_dollar": "0.837521",
+        "dividend_pv_usd": "0.00",
+        "gross_usd": "25000000.00",
+        "nav_claim_usd": "20833333.33",
+        "net_usd": "24875000.00",
         "ticker": "MSTR"
+      },
+      {
+        "annual_dividend_usd": "10050.25",
+        "binding_constraint": "target",
+        "btc_acquired_scenario": "1.47058824",
+        "capacity_evidence": [
+          {
+            "as_of": "2026-10-04",
+            "capacity_usd": "2100000000",
+            "filed": "2026-10-05",
+            "program": "STRK Stock",
+            "url": "https://www.sec.gov/Archives/edgar/data/1050446/000119312526413164/mstr-20261005.htm"
+          }
+        ],
+        "claim_value_btc": "1.31326282",
+        "claim_value_usd": "111627.34",
+        "conversion_value_usd": "11124.83",
+        "cost_per_net_dollar": "0.893019",
+        "dividend_pv_usd": "100502.51",
+        "gross_usd": "125628.14",
+        "nav_claim_usd": "0.00",
+        "net_usd": "125000.00",
+        "ticker": "STRK"
       }
     ],
+    "blocked": [],
+    "break_even_discount_rate_vs_common": {
+      "STRC": "0.144000",
+      "STRD": "0.120000",
+      "STRF": "0.120000",
+      "STRK": "0.107414"
+    },
+    "cost_basis": {
+      "common": "NAV claim = gross / mNAV",
+      "common_below_nav": "warn",
+      "perpetual_discount_rate": "0.100000",
+      "perpetual_discount_rate_source": "scenario",
+      "preferred": "perpetual dividends capitalized: gross x annual yield / perpetual_discount_rate",
+      "strk_conversion": "Black-Scholes call on 0.1 MSTR share at $1,000 per STRK; STRK price = $8 / yield"
+    },
     "disabled_without_limit": [],
-    "dividend_budget_remaining_usd": "0E-21",
+    "dividend_budget_remaining_usd": "1989949.75",
     "missing_capacity": [],
     "missing_market_inputs": [],
-    "objective": "minimize one-year cost proxy per net dollar; deterministic ticker ties",
+    "objective": "minimize present value of claims transferred per net dollar raised; deterministic ticker ties",
+    "ranking": [
+      {
+        "binding_constraint": "user_limit",
+        "claim_per_gross_dollar": {
+          "conversion_value": "0.000000",
+          "dividend_pv": "0.000000",
+          "nav_claim": "0.833333"
+        },
+        "cost_per_net_dollar": "0.837521",
+        "gross_usd": "25000000.00",
+        "ticker": "MSTR"
+      },
+      {
+        "binding_constraint": "target",
+        "claim_per_gross_dollar": {
+          "conversion_value": "0.088554",
+          "dividend_pv": "0.800000",
+          "nav_claim": "0.000000"
+        },
+        "cost_per_net_dollar": "0.893019",
+        "gross_usd": "125628.14",
+        "ticker": "STRK"
+      },
+      {
+        "binding_constraint": "target_already_filled",
+        "claim_per_gross_dollar": {
+          "conversion_value": "0.000000",
+          "dividend_pv": "1.000000",
+          "nav_claim": "0.000000"
+        },
+        "cost_per_net_dollar": "1.005025",
+        "gross_usd": "0.00",
+        "ticker": "STRD"
+      },
+      {
+        "binding_constraint": "target_already_filled",
+        "claim_per_gross_dollar": {
+          "conversion_value": "0.000000",
+          "dividend_pv": "1.000000",
+          "nav_claim": "0.000000"
+        },
+        "cost_per_net_dollar": "1.005025",
+        "gross_usd": "0.00",
+        "ticker": "STRF"
+      },
+      {
+        "binding_constraint": "target_already_filled",
+        "claim_per_gross_dollar": {
+          "conversion_value": "0.000000",
+          "dividend_pv": "1.200000",
+          "nav_claim": "0.000000"
+        },
+        "cost_per_net_dollar": "1.206030",
+        "gross_usd": "0.00",
+        "ticker": "STRC"
+      }
+    ],
     "status": "filled",
-    "unfilled_net_usd": "0"
+    "unfilled_net_usd": "0.00",
+    "warnings": []
   },
   "scenario": {
     "annual_dividend_budget_usd": "2000000",
     "btc_usd": "85000",
+    "common_below_nav": "warn",
     "decision_date": "2026-10-09",
     "fee_fraction": "0.005",
     "label": "SYNTHETIC market assumptions, not observed prices or yields; real disclosed capacity and actual issuance",
@@ -155,6 +200,13 @@
     "market_as_of": "2026-10-09",
     "mnav": "1.2",
     "period_end": "2026-10-18",
+    "perpetual_discount_rate": "0.10",
+    "strk_conversion": {
+      "horizon_years": "10",
+      "mstr_price_usd": "200",
+      "risk_free_rate": "0.045",
+      "volatility": "0.6"
+    },
     "target_net_usd": "25000000",
     "yields": {
       "STRC": "0.12",

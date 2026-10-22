@@ -7,11 +7,11 @@ from router.core import recommend
 class PrecisionTests(unittest.TestCase):
     def scenario(self, fee, annual, budget, target):
         return {'fee_fraction': D(fee), 'btc_usd': D(1), 'target_net_usd': D(target),
-                'annual_dividend_budget_usd': D(budget), 'limits_usd': {'STRK': D(10000)},
-                'yields': {'STRK': D(annual)}}
+                'annual_dividend_budget_usd': D(budget), 'limits_usd': {'STRF': D(10000)},
+                'yields': {'STRF': D(annual)}}
 
     def result(self, scenario):
-        return recommend(scenario, {'STRK': {'capacity_usd': D(10000), 'sources': []}})
+        return recommend(scenario, {'STRF': {'capacity_usd': D(10000), 'sources': []}})
 
     def test_budget_does_not_round_above_bound(self):
         result = self.result(self.scenario('0', '.14', '2', '10000'))

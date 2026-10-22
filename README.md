@@ -2,20 +2,21 @@
 
 [![Offline verification](https://github.com/RahilBhavan/strategy-issuance-router/actions/workflows/ci.yml/badge.svg)](https://github.com/RahilBhavan/strategy-issuance-router/actions/workflows/ci.yml)
 
-![Synthetic allocation: MSTR $3.11M, STRK $9.95M, STRD $9.95M and STRF $1.99M versus actual MSTR $22M and zero preferred issuance. Scenario replay, not a backtest.](figures/result.svg)
+![Synthetic $25M allocation: MSTR $24.88M at 0.84 per net dollar, STRK $0.13M at 0.89; STRD, STRF and STRC unused at 1.01–1.21. Actual week: MSTR $22M, no preferred issuance. Scenario replay, not a backtest.](figures/result.svg)
 
-A deterministic Python CLI allocates a user-defined net funding target under disclosed ATM capacity, instrument limits and an annual dividend budget. It compares the recommendation with later weekly issuance. The market inputs are **synthetic**; capacity and actual issuance come from a pinned, bundled subset of the public SEC-derived ledger.
+A deterministic Python CLI splits a net funding target across Strategy's (MSTR) common stock and USD preferreds under disclosed ATM capacity, instrument limits and an annual dividend budget. It ranks each instrument by the present value of claims handed to new holders per net dollar raised, and shows which constraint stops each one. It gives a recommendation for a future week, or compares a past week with actual issuance. The market inputs are **synthetic**; capacity and actual issuance come from a pinned, bundled subset of the public SEC-derived ledger.
 
 ## What it does
 
-- Ranks instruments using an explicit one-year cost proxy and reports unfilled funding, missing inputs and capacity evidence.
-- Requires a decision before the target period; later issuance amounts do not influence allocation.
-- Replays an October 9, 2026 synthetic $25M target against October 12–18 actual issuance: **$22M MSTR net proceeds**, zero preferred ATM proceeds ([result](examples/result.json)).
+- Prices every instrument on one basis: common at `1/mNAV` of NAV claim per gross dollar; preferreds at annual yield capitalized at a stated perpetual discount rate (10% in the demo); STRK adds the Black–Scholes value of its conversion right. It reports cost per net dollar, the binding constraint, the discount rate at which each preferred would beat common, unfilled funding, missing inputs and capacity evidence.
+- Warns when common is issued below mNAV 1, or excludes it with `"common_below_nav": "block"`.
+- Requires a decision before the target period; later issuance amounts do not influence allocation. A week not yet in the ledger gives a forward-looking recommendation with no actual comparison.
+- Replays an October 9, 2026 synthetic $25M target against October 12–18 actual issuance ([result](examples/result.json)). The router issues **$24.875M net of MSTR** (stopped by its $25M gross limit) and $0.125M of STRK; Strategy issued **$22M MSTR net proceeds** and no preferred ATM proceeds. The earlier one-year proxy issued only $3.11M of MSTR. The closer match follows from the synthetic inputs: above a 12% discount rate, STRF and STRD rank ahead of common.
 - Runs offline with no sibling checkout, package dependencies, credentials or paid feed.
 
 ## How it works
 
-`router/io.py` validates scenario JSON and the ledger CSV contract, then selects capacity known by the cutoff. `router/core.py` greedily ranks proxy cost per net dollar: gross proceeds / mNAV for common, gross proceeds × annual cash yield for preferred. `router/__main__.py` adds actual comparisons after allocation. The proxies have different economic meanings; [method](docs/method.md) explains the simplification and precision policy.
+`router/io.py` validates scenario JSON and the ledger CSV contract, then selects capacity known by the cutoff. `router/core.py` greedily ranks claim value per net dollar and records which bound (target, dividend budget, user limit or disclosed capacity) stops each instrument. `router/__main__.py` adds actual comparisons after allocation when the ledger has the target week, and rounds output to cents for display. [Method](docs/method.md) explains why perpetual dividends are capitalized, how to choose the discount rate, the STRK conversion term and the precision policy.
 
 ## Run it
 
@@ -26,11 +27,12 @@ git clone https://github.com/RahilBhavan/strategy-issuance-router.git
 cd strategy-issuance-router
 python -m unittest discover -s tests -v
 python -m router --scenario examples/synthetic.json
+python -m router --scenario examples/forward.json
 python -m compileall -q router scripts tests
 python scripts/render_result.py --check
 ```
 
-Observed: **33 tests pass**. Two fresh CLI processes produce byte-identical output matching `examples/result.json`. The default fixture covers only the demo dates. For other dates, use `--ledger /path/to/restored-ledger`; see the [versioned dependency contract](docs/dependency.md).
+Observed: **45 tests pass**. Two fresh CLI processes produce byte-identical output matching `examples/result.json`. `examples/forward.json` asks for the week ending November 1, 2026 from an October 22 decision; it uses capacities from the October 19 filing and prints a note that no actual comparison exists. `--no-actuals` skips the comparison for a past week. The default fixture covers only the demo dates. For other dates, use `--ledger /path/to/restored-ledger`; see the [versioned dependency contract](docs/dependency.md).
 
 ## Compare simple financing alternatives
 
@@ -39,9 +41,9 @@ python -m router --scenario examples/synthetic.json --compare-financing
 ```
 
 Adds common-only, preferred-only and single-preferred policies under the same
-assumptions. Reports fees, common NAV claim, annual preferred cash expense,
+assumptions. Reports fees, common NAV claim, capitalized preferred dividends, STRK conversion value, annual preferred cash expense,
 capacity headroom and optional direct common ownership dilution. Partial fills
-never receive full-target proxy difference claims. The default synthetic route
+never receive full-target claim-value difference claims. The default synthetic route
 funds $25M; common-only funds $24.875M and preferred-only $21.89M.
 See the [five-minute example and formulas](docs/financing-comparison.md).
 
@@ -73,7 +75,7 @@ The bundled selection contains two weekly rows and twenty instrument rows (ten A
 
 - Independent scenario tool, not affiliated with Strategy. No execution, account access or trades.
 - Scenario replay, **not a historical backtest**. No independently sourced point-in-time mNAV/yield series is bundled; market dates are user assertions. No calibrated performance or optimal real treasury claim.
-- Common NAV claim and one year of preferred cash expense are asymmetric proxies. Principal, perpetual duration, conversion, taxes, liquidity and legal issuance feasibility are omitted.
+- Rankings depend on the stated perpetual discount rate and STRK conversion inputs; the output gives break-even rates. The STRK conversion value is a finite-horizon European stand-in for a perpetual right. Taxes, liquidity, calls and legal issuance feasibility are omitted. The greedy rule is not a proven optimum when the dividend budget binds.
 - Disclosed capacity may be stale. It is an assumed gross ceiling, not proof of tradability. EUR/STRE is excluded without FX modeling.
 - The October 28 daily-dividend proposal was **pending at the October 21 snapshot**. Annual yields do not encode approval or dividend cadence.
 - CSV validation and hashes do not certify financial data or security. The selected fixture is not a completeness claim.

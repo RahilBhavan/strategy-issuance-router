@@ -8,6 +8,9 @@ from pathlib import Path
 TICKERS = {'MSTR', 'STRK', 'STRF', 'STRD', 'STRC', 'STRE'}
 REQUIRED = {'label', 'decision_date', 'market_as_of', 'period_end', 'target_net_usd',
             'btc_usd', 'fee_fraction', 'annual_dividend_budget_usd', 'limits_usd', 'yields'}
+OPTIONAL = {'mnav', 'common_share_price_usd', 'common_shares_outstanding', 'perpetual_discount_rate',
+            'common_below_nav', 'strk_conversion'}
+STRK_CONVERSION = {'mstr_price_usd': None, 'volatility': D(5), 'horizon_years': D(100), 'risk_free_rate': D('0.5')}
 
 
 def date(value):
@@ -30,8 +33,10 @@ def number(value, name, positive=False):
 
 def scenario(path):
     data = json.loads(Path(path).read_text(), parse_float=D)
-    if not isinstance(data, dict) or REQUIRED - data.keys() or data.keys() - REQUIRED - {'mnav', 'common_share_price_usd', 'common_shares_outstanding'}:
-        raise ValueError('scenario missing required fields or contains unknown fields')
+    if not isinstance(data, dict) or REQUIRED - data.keys() or data.keys() - REQUIRED - OPTIONAL:
+        keys = set(data) if isinstance(data, dict) else set()
+        raise ValueError(f'scenario missing required fields {sorted(REQUIRED - keys)} '
+                         f'or contains unknown fields {sorted(keys - REQUIRED - OPTIONAL)}')
     if not isinstance(data['label'], str) or not data['label'].strip():
         raise ValueError('label must describe observed or synthetic market inputs')
     for k in ('decision_date', 'market_as_of', 'period_end'):
@@ -54,6 +59,20 @@ def scenario(path):
         data[k] = {t: number(v, f'{k}.{t}') for t, v in data[k].items()}
     if 'MSTR' in data['yields'] or any(v > 1 for v in data['yields'].values()):
         raise ValueError('preferred cash yields must be fractions from 0 to 1; MSTR uses mnav')
+    if 'perpetual_discount_rate' in data:
+        data['perpetual_discount_rate'] = number(data['perpetual_discount_rate'], 'perpetual_discount_rate', True)
+        if data['perpetual_discount_rate'] > 1:
+            raise ValueError('perpetual_discount_rate is a fraction (10% is 0.10)')
+    if data.get('common_below_nav', 'warn') not in ('warn', 'block'):
+        raise ValueError('common_below_nav must be warn or block')
+    if 'strk_conversion' in data:
+        block = data['strk_conversion']
+        if not isinstance(block, dict) or set(block) != set(STRK_CONVERSION):
+            raise ValueError(f'strk_conversion requires exactly {sorted(STRK_CONVERSION)}')
+        for key, ceiling in STRK_CONVERSION.items():
+            block[key] = number(block[key], f'strk_conversion.{key}', key != 'risk_free_rate')
+            if ceiling is not None and block[key] > ceiling:
+                raise ValueError(f'strk_conversion.{key} must be at most {ceiling} (rates are fractions)')
     return data
 
 

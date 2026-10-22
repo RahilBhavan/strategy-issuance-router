@@ -70,3 +70,7 @@ October 21 source snapshot. See method and sources for details.
 ## Update 2026-10-22: license
 
 The MIT license was added in `LICENSE`. It covers this project's code only. Earlier statements in this record that no license file existed describe the state at publication.
+
+## Update 2026-10-22: reader-test model fixes
+
+A cold-reader test found that the CLI required the target week's 8-K and that the one-year proxy favored preferreds. The router now values all instruments as present value of claims per net dollar (capitalized preferred dividends, STRK conversion value, common NAV claim), warns or blocks common below mNAV 1, supports forward weeks without actuals, and rounds output for display. The October 12–18 replay changed from $3.11M to $24.875M of common; see [method](method.md). Hosted CI for the pushed commit is the verification record.

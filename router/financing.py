@@ -8,7 +8,6 @@ def summarize(scenario, capacities, result):
     total = lambda key: sum((r[key] for r in rows), D(0))
     gross, net = total('gross_usd'), total('net_usd')
     common_gross = sum((r['gross_usd'] for r in rows if r['ticker'] == 'MSTR'), D(0))
-    nav_claim = sum((r['cost_proxy_usd'] for r in rows if r['ticker'] == 'MSTR'), D(0))
     annual = total('annual_dividend_usd')
     new_shares = (common_gross / scenario['common_share_price_usd']
                   if 'common_share_price_usd' in scenario else None)
@@ -28,10 +27,12 @@ def summarize(scenario, capacities, result):
     return {
         'funded_net_usd': net, 'gross_issued_usd': gross,
         'fees_usd': total('gross_usd') * scenario['fee_fraction'],
-        'common_nav_claim_proxy_usd': nav_claim,
+        'common_nav_claim_usd': total('nav_claim_usd'),
+        'preferred_dividend_pv_usd': total('dividend_pv_usd'),
+        'strk_conversion_value_usd': total('conversion_value_usd'),
+        'claim_value_usd': total('claim_value_usd'),
+        'claim_value_per_funded_net_dollar': total('claim_value_usd') / net if net else None,
         'annual_preferred_cash_expense_usd': annual,
-        'one_year_asymmetric_proxy_usd': total('cost_proxy_usd'),
-        'proxy_per_funded_net_dollar': total('cost_proxy_usd') / net if net else None,
         'new_common_shares': new_shares,
         'new_common_ownership_fraction': ownership,
         'constraints': constraints,
@@ -51,17 +52,17 @@ def compare_financing(scenario, capacities):
                              'metrics': summarize(restricted, capacities, result)})
     router = alternatives[0]
     for alternative in alternatives:
-        # Proxy differences across partial/incomplete funding are not savings.
+        # Claim-value differences across partial/incomplete funding are not savings.
         comparable = all(a['result']['status'] == 'filled' and
                          a['result']['unfilled_net_usd'] <= FILL_TOLERANCE_USD
                          for a in (router, alternative))
         alternative['full_target_comparable_with_router'] = comparable
-        alternative['proxy_excess_over_router_usd'] = (
-            alternative['metrics']['one_year_asymmetric_proxy_usd'] -
-            router['metrics']['one_year_asymmetric_proxy_usd'] if comparable else None)
+        alternative['claim_value_excess_over_router_usd'] = (
+            alternative['metrics']['claim_value_usd'] - router['metrics']['claim_value_usd'] if comparable else None)
     return {
         'basis': 'Same target, cutoff, markets, fee, limits, dividend budget and disclosed capacities; only eligible tickers change.',
-        'caveat': 'Common NAV claim and one-year preferred cash expense are asymmetric proxies; fees are separate and reduce funding. Proxy excess is not economic savings.',
+        'caveat': 'Claim values are present values under the scenario discount rate and STRK conversion inputs; '
+                  'fees are separate and reduce funding. Claim-value excess is a model difference, not realized savings.',
         'dilution_basis': 'New common shares / post-issue common shares at assumed execution price; excludes preferred conversions. Null without price and pre-issue shares.',
         'alternatives': alternatives,
     }
