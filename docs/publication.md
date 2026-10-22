@@ -66,3 +66,7 @@ No liquidity, full principal/conversion valuation or legal issuance feasibility
 model. Source hashes prove identity, not completeness, certification or investment
 suitability. No license file yet. October 28 dividend vote remains pending at the
 October 21 source snapshot. See method and sources for details.
+
+## Update 2026-10-22: license
+
+The MIT license was added in `LICENSE`. It covers this project's code only. Earlier statements in this record that no license file existed describe the state at publication.

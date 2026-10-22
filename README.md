@@ -80,6 +80,6 @@ The bundled selection contains two weekly rows and twenty instrument rows (ten A
 
 ## License
 
-No license file yet. Third-party filings and data retain their own terms.
+[MIT](LICENSE). The license covers this project's code only. Third-party filings and data retain their own terms.
 
 Part of [Rahil Bhavan's projects](https://github.com/RahilBhavan).
