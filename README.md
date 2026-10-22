@@ -50,7 +50,7 @@ Observed: **24 tests pass**. Two fresh CLI processes produce byte-identical outp
 
 ## Sources
 
-The bundled selection contains two weekly rows and ten ATM instrument rows, with original SEC URLs. [Provenance](fixtures/ledger-v1/provenance.json) pins the ledger commit and artifact SHA-256 hashes; [source manifest](fixtures/ledger-v1/data/source-manifest.json) records original HTML hashes and fetch times. [October 5 capacity](https://www.sec.gov/Archives/edgar/data/1050446/000119312526413164/mstr-20261005.htm) and [October 19 actual issuance](https://www.sec.gov/Archives/edgar/data/1050446/000119312526424688/mstr-20261019.htm) were reviewed against primary filings. Source snapshot: October 21, 2026; UTC fetch dates are separate.
+The bundled selection contains two weekly rows and twenty instrument rows (ten ATM and ten buyback), with original SEC URLs. Only ATM rows enter the rule. [Provenance](fixtures/ledger-v1/provenance.json) pins the ledger commit and artifact SHA-256 hashes; [source manifest](fixtures/ledger-v1/data/source-manifest.json) records original HTML hashes and fetch times. [October 5 capacity](https://www.sec.gov/Archives/edgar/data/1050446/000119312526413164/mstr-20261005.htm) and [October 19 actual issuance](https://www.sec.gov/Archives/edgar/data/1050446/000119312526424688/mstr-20261019.htm) were reviewed against primary filings. Source snapshot: October 21, 2026; UTC fetch dates are separate.
 
 ## Scope and limits
 

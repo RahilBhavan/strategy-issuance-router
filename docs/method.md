@@ -13,7 +13,7 @@ This is a transparent rule, not a claim of globally optimal or feasible real tre
 
 ## No lookahead
 
-`decision_date` must be strictly before the target period starts. Because the source has filing dates rather than acceptance timestamps, the date-only boundary is conservative and excludes the entire target period. Market data's `market_as_of` cannot exceed the decision date; these are user assertions, not independently authenticated market timestamps.
+`decision_date` is an end-of-day cutoff, not an intraday timestamp, and must be strictly before the target period starts. Same-day filings are assumed known by that cutoff. Because the source has filing dates rather than acceptance timestamps, the date-only boundary is conservative and excludes the entire target period. Market data's `market_as_of` cannot exceed the decision date; these are user assertions, not independently authenticated market timestamps.
 
 For each USD ticker, select the latest disclosed period/filing/accession known by the cutoff and sum separate programs at that observation. Earlier programs are not accumulated across dates. Available capacity is used as a gross USD ceiling by assumption; filings can describe authorized aggregate sale value rather than realized net proceeds. It can become stale or change between disclosures. STRE EUR capacity is excluded rather than silently FX-converted. No existing cash reserve is treated as a funding source.
 
