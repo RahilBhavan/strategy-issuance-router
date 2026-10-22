@@ -2,8 +2,8 @@
 
 Purpose: record the reviewed public source and reproducibility evidence.
 
-Publication is in progress. The persistent T3 goal remains active until the remote
-main commit, fresh remote clone and GitHub Actions run are verified. No deployment,
+Reviewed source is published publicly. The source commit, fresh remote clone and
+GitHub Actions run below have been verified. No deployment,
 trade, account action or license selection is included.
 
 ## Prepublication review
@@ -19,7 +19,7 @@ trade, account action or license selection is included.
 - No code license chosen; no license file yet. No PR is used for the authorized
   initial public publication.
 
-Final remote, clean-clone and CI evidence will be appended after verification.
+The evidence below records the initial source check and final reviewed dependency.
 
 ## Verified first public source
 
@@ -44,4 +44,25 @@ selected rows are unchanged. Fetched that exact public SHA into an isolated
 checkout, restored CSVs, and verified commit, contract, upstream hashes, selected
 rows and original source-manifest entries. All match; no fixture value changed.
 
-Final receipt commit verification is recorded below.
+## Final reviewed source verification
+
+- Verified source commit: `be614b9ddfacb98ae510dd46310a991e40cd3591` on remote
+  default branch `main`.
+- [GitHub CI run 39718855863](https://github.com/RahilBhavan/strategy-issuance-router/actions/runs/39718855863)
+  passed all steps using pinned checkout v7.0.1/setup-python v7.1.0 actions and
+  Python 3.14.0. No Node deprecation annotation remained.
+- A new HTTPS clone of that source commit passed 24 tests, compileall, figure
+  generation check and the upstream dependency verification command. Two fresh
+  CLI processes matched the committed demo, SHA-256 unchanged from above.
+- The receipt-only follow-up commit records these completed checks. Its exact SHA
+  and final branch CI status are reported in the delivery message, avoiding a
+  self-referential commit hash inside this file.
+
+## Remaining limits
+
+Synthetic market assumptions; scenario replay rather than historical backtest.
+Common NAV claim versus one-year preferred cash expense remains asymmetric.
+No liquidity, full principal/conversion valuation or legal issuance feasibility
+model. Source hashes prove identity, not completeness, certification or investment
+suitability. No license file yet. October 28 dividend vote remains pending at the
+October 21 source snapshot. See method and sources for details.
