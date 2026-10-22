@@ -1,0 +1,168 @@
+{
+  "comparison": [
+    {
+      "actual_net_usd": "22000000",
+      "actual_sources": [
+        "https://www.sec.gov/Archives/edgar/data/1050446/000119312526424688/mstr-20261019.htm"
+      ],
+      "difference_usd": "-18890000.00000000000000000000",
+      "scenario_net_usd": "3110000.000000000000000000000",
+      "ticker": "MSTR"
+    },
+    {
+      "actual_net_usd": "0",
+      "actual_sources": [
+        "https://www.sec.gov/Archives/edgar/data/1050446/000119312526424688/mstr-20261019.htm"
+      ],
+      "difference_usd": "0",
+      "scenario_net_usd": "0",
+      "ticker": "STRC"
+    },
+    {
+      "actual_net_usd": "0",
+      "actual_sources": [
+        "https://www.sec.gov/Archives/edgar/data/1050446/000119312526424688/mstr-20261019.htm"
+      ],
+      "difference_usd": "9950000.000",
+      "scenario_net_usd": "9950000.000",
+      "ticker": "STRD"
+    },
+    {
+      "actual_net_usd": "0",
+      "actual_sources": [
+        "https://www.sec.gov/Archives/edgar/data/1050446/000119312526424688/mstr-20261019.htm"
+      ],
+      "difference_usd": "1990000.0000",
+      "scenario_net_usd": "1990000.0000",
+      "ticker": "STRF"
+    },
+    {
+      "actual_net_usd": "0",
+      "actual_sources": [
+        "https://www.sec.gov/Archives/edgar/data/1050446/000119312526424688/mstr-20261019.htm"
+      ],
+      "difference_usd": "9950000.000",
+      "scenario_net_usd": "9950000.000",
+      "ticker": "STRK"
+    }
+  ],
+  "limits": [
+    "Synthetic or user-supplied market inputs; no historical market feed.",
+    "Stale disclosed capacity is a scenario ceiling, not proof of tradability.",
+    "No execution, liquidity, conversion, principal liability, taxes or long-term optimality model.",
+    "Daily dividend proposal is pending as of 2026-10-21; cadence is not used."
+  ],
+  "recommendation": {
+    "allocations": [
+      {
+        "annual_dividend_usd": "800000.00",
+        "btc_acquired_scenario": "117.0588235294117647058823529",
+        "btc_cost_proxy": "9.411764705882352941176470588",
+        "capacity_evidence": [
+          {
+            "as_of": "2026-10-04",
+            "capacity_usd": "2100000000",
+            "filed": "2026-10-05",
+            "program": "STRK Stock",
+            "url": "https://www.sec.gov/Archives/edgar/data/1050446/000119312526413164/mstr-20261005.htm"
+          }
+        ],
+        "cost_per_net_dollar": "0.08040201005025125628140703518",
+        "cost_proxy_usd": "800000.00",
+        "gross_usd": "10000000",
+        "net_usd": "9950000.000",
+        "ticker": "STRK"
+      },
+      {
+        "annual_dividend_usd": "1000000.0",
+        "btc_acquired_scenario": "117.0588235294117647058823529",
+        "btc_cost_proxy": "11.76470588235294117647058824",
+        "capacity_evidence": [
+          {
+            "as_of": "2026-10-04",
+            "capacity_usd": "4014800000",
+            "filed": "2026-10-05",
+            "program": "STRD Stock",
+            "url": "https://www.sec.gov/Archives/edgar/data/1050446/000119312526413164/mstr-20261005.htm"
+          }
+        ],
+        "cost_per_net_dollar": "0.1005025125628140703517587940",
+        "cost_proxy_usd": "1000000.0",
+        "gross_usd": "10000000",
+        "net_usd": "9950000.000",
+        "ticker": "STRD"
+      },
+      {
+        "annual_dividend_usd": "200000.00",
+        "btc_acquired_scenario": "23.41176470588235294117647059",
+        "btc_cost_proxy": "2.352941176470588235294117647",
+        "capacity_evidence": [
+          {
+            "as_of": "2026-10-04",
+            "capacity_usd": "1619300000",
+            "filed": "2026-10-05",
+            "program": "STRF Stock",
+            "url": "https://www.sec.gov/Archives/edgar/data/1050446/000119312526413164/mstr-20261005.htm"
+          }
+        ],
+        "cost_per_net_dollar": "0.1005025125628140703517587940",
+        "cost_proxy_usd": "200000.00",
+        "gross_usd": "2000000.0",
+        "net_usd": "1990000.0000",
+        "ticker": "STRF"
+      },
+      {
+        "annual_dividend_usd": "0E-21",
+        "btc_acquired_scenario": "36.58823529411764705882352941",
+        "btc_cost_proxy": "30.64341314415213321509508326",
+        "capacity_evidence": [
+          {
+            "as_of": "2026-10-04",
+            "capacity_usd": "18828700000",
+            "filed": "2026-10-05",
+            "program": "MSTR Stock",
+            "url": "https://www.sec.gov/Archives/edgar/data/1050446/000119312526413164/mstr-20261005.htm"
+          }
+        ],
+        "cost_per_net_dollar": "0.8375209380234505862646566164",
+        "cost_proxy_usd": "2604690.117252931323283082077",
+        "gross_usd": "3125628.140703517587939698492",
+        "net_usd": "3110000.000000000000000000000",
+        "ticker": "MSTR"
+      }
+    ],
+    "disabled_without_limit": [],
+    "dividend_budget_remaining_usd": "0E-21",
+    "missing_capacity": [],
+    "missing_market_inputs": [],
+    "objective": "minimize one-year cost proxy per net dollar; deterministic ticker ties",
+    "status": "filled",
+    "unfilled_net_usd": "0"
+  },
+  "scenario": {
+    "annual_dividend_budget_usd": "2000000",
+    "btc_usd": "85000",
+    "decision_date": "2026-10-09",
+    "fee_fraction": "0.005",
+    "label": "SYNTHETIC market assumptions, not observed prices or yields; real disclosed capacity and actual issuance",
+    "limits_usd": {
+      "MSTR": "25000000",
+      "STRC": "10000000",
+      "STRD": "10000000",
+      "STRF": "10000000",
+      "STRK": "10000000"
+    },
+    "market_as_of": "2026-10-09",
+    "mnav": "1.2",
+    "period_end": "2026-10-18",
+    "target_net_usd": "25000000",
+    "yields": {
+      "STRC": "0.12",
+      "STRD": "0.1",
+      "STRF": "0.1",
+      "STRK": "0.08"
+    }
+  },
+  "target_actual_filed": "2026-10-19",
+  "target_period_start": "2026-10-12"
+}
