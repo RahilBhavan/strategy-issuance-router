@@ -30,7 +30,7 @@ def number(value, name, positive=False):
 
 def scenario(path):
     data = json.loads(Path(path).read_text(), parse_float=D)
-    if not isinstance(data, dict) or REQUIRED - data.keys() or data.keys() - REQUIRED - {'mnav'}:
+    if not isinstance(data, dict) or REQUIRED - data.keys() or data.keys() - REQUIRED - {'mnav', 'common_share_price_usd', 'common_shares_outstanding'}:
         raise ValueError('scenario missing required fields or contains unknown fields')
     if not isinstance(data['label'], str) or not data['label'].strip():
         raise ValueError('label must describe observed or synthetic market inputs')
@@ -41,6 +41,11 @@ def scenario(path):
     for k in ('target_net_usd', 'btc_usd', 'fee_fraction', 'annual_dividend_budget_usd', 'mnav'):
         if k in data:
             data[k] = number(data[k], k, k in ('btc_usd', 'mnav', 'target_net_usd'))
+    dilution_fields = {'common_share_price_usd', 'common_shares_outstanding'}
+    if dilution_fields & data.keys() and not dilution_fields <= data.keys():
+        raise ValueError('common price and pre-issue shares must be supplied together')
+    for k in sorted(dilution_fields & data.keys()):
+        data[k] = number(data[k], k, positive=True)
     if data['fee_fraction'] >= 1:
         raise ValueError('fee_fraction must be less than 1')
     for k in ('yields', 'limits_usd'):

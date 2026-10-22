@@ -10,3 +10,10 @@ bundled demo snapshot replaces the original mutable sibling dependency.
 - Rank feasible instruments by an explicit one-year BTC-equivalent financing-cost proxy. Common cost = proceeds/mNAV; preferred cost = proceeds*annual cash yield; fees reduce net cash. This is a rule-based scenario objective, not treasury optimization or a security valuation.
 - Allocate up to target under known capacity, user limits and dividend budget. Compare recommended proceeds with the actual target-period per-instrument issuance, loaded only after the recommendation. Actual figures must never determine the recommendation.
 - Demo uses visibly synthetic market assumptions over real historical ledger capacity and actual issuance. Prove no-lookahead, missing inputs, constraints, tie-breaking, negative inputs and deterministic replay.
+
+## Authorized comparison slice (2026-10-22)
+
+Opt-in shared-assumption financing alternatives and optional common dilution are
+specified in [the improvement plan](improvement-plan.md). Default output and the
+pinned ledger contract remain compatible. See [comparison](financing-comparison.md)
+for formulas and limits.

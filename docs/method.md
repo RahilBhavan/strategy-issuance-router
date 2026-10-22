@@ -41,3 +41,11 @@ therefore improve both cost and budget use; the common instrument consumes no
 dividend budget and has a fixed marginal cost. With the shared fee and fractional
 allocations, ascending scores are sufficient for this model. This argument does
 not extend to instrument-specific fees, minimum lots or omitted legal constraints.
+
+## Financing alternatives
+
+The optional [comparison](financing-comparison.md) restricts eligible instruments
+while preserving all other assumptions and the original objective. It separates
+fees, common NAV claim and annual cash expense, and optionally calculates direct
+common ownership dilution from explicit price/share inputs. No metric removes
+the proxy asymmetry or establishes real economic superiority.

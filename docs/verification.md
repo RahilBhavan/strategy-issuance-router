@@ -71,3 +71,12 @@ scenario was assembled. Filing purchase prices are not substituted for decision-
 BTC spot. Daily-dividend approval remains conditional at the source snapshot.
 
 Remote commit, fresh-clone and CI evidence are recorded in [publication](publication.md).
+
+## Financing comparison slice (2026-10-22)
+
+Baseline clean `b35ff03`: 24 tests pass. After the opt-in comparison: 33 tests pass.
+Nine new tests cover hand-calculated fees/costs/dilution, partial-fill comparison
+eligibility, shared budget/capacity/limits, missing inputs, null dilution, empty
+policy, no-lookahead, validation and deterministic CLI compatibility. Default
+replay, compileall, fixture hashes and generated SVG remain unchanged. See
+[reproduction and measured limits](financing-comparison.md).

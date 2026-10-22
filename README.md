@@ -30,7 +30,20 @@ python -m compileall -q router scripts tests
 python scripts/render_result.py --check
 ```
 
-Observed: **24 tests pass**. Two fresh CLI processes produce byte-identical output matching `examples/result.json`. The default fixture covers only the demo dates. For other dates, use `--ledger /path/to/restored-ledger`; see the [versioned dependency contract](docs/dependency.md).
+Observed: **33 tests pass**. Two fresh CLI processes produce byte-identical output matching `examples/result.json`. The default fixture covers only the demo dates. For other dates, use `--ledger /path/to/restored-ledger`; see the [versioned dependency contract](docs/dependency.md).
+
+## Compare simple financing alternatives
+
+```bash
+python -m router --scenario examples/synthetic.json --compare-financing
+```
+
+Adds common-only, preferred-only and single-preferred policies under the same
+assumptions. Reports fees, common NAV claim, annual preferred cash expense,
+capacity headroom and optional direct common ownership dilution. Partial fills
+never receive full-target proxy difference claims. The default synthetic route
+funds $25M; common-only funds $24.875M and preferred-only $21.89M.
+See the [five-minute example and formulas](docs/financing-comparison.md).
 
 ## Repository layout
 
