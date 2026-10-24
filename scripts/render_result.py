@@ -45,7 +45,9 @@ def render():
               ('note', 'Common 1/mNAV; preferred yield'), ('note', f'÷ {rate:.0%} discount rate; STRK adds'),
               ('note', 'its conversion value.'), ('gap', ''),
               ('note', 'Actual: October 12–18, 2026'), ('note', 'SEC October 19 8-K'),
-              ('note', 'Synthetic mNAV, yields, fees and limits.'), ('note', 'Source: examples/result.json'),
+              ('note', 'Synthetic mNAV, yields, fees and limits.'),
+              ('note', f'The ${target}M target is illustrative,'), ('note', 'not a filed or planned raise.'),
+              ('note', 'Source: examples/result.json'),
               ('note', 'Rahil Bhavan · Source as-of Oct 21'), ('note', 'Not a historical backtest or'),
               ('note', 'investment recommendation.')]
     lines = []
@@ -59,7 +61,7 @@ def render():
     height = y + 5
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="400" height="{height}" viewBox="0 0 400 {height}" role="img" aria-labelledby="title desc">
 <title id="title">Synthetic ${target}M allocation versus ${short(actual_total)}M actual issuance</title>
-<desc id="desc">Net USD millions and cost per net dollar raised. {'; '.join(desc)}. Actual October 12–18, 2026. Scenario replay, not a backtest.</desc>
+<desc id="desc">Net USD millions and cost per net dollar raised. {'; '.join(desc)}. The ${target}M target is illustrative, not a filed or planned raise. Actual October 12–18, 2026. Scenario replay, not a backtest.</desc>
 <style>text{{font-family:'IBM Plex Sans',sans-serif;font-size:20px;fill:#111214}}.note{{font-size:18px;fill:#52545A}}.head{{font-weight:600}}</style>
 <rect width="400" height="{height}" fill="#F5F5EF"/>
 <text x="20" y="40" class="head">Synthetic ${target}M allocation</text>

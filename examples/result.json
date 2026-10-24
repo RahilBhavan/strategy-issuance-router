@@ -189,7 +189,7 @@
     "common_below_nav": "warn",
     "decision_date": "2026-10-09",
     "fee_fraction": "0.005",
-    "label": "SYNTHETIC market assumptions, not observed prices or yields; real disclosed capacity and actual issuance",
+    "label": "SYNTHETIC: the $25M target is an illustrative amount, not a filed or planned raise; synthetic market assumptions, not observed prices or yields; real disclosed capacity and actual issuance",
     "limits_usd": {
       "MSTR": "25000000",
       "STRC": "10000000",

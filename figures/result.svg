@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="925" viewBox="0 0 400 925" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="985" viewBox="0 0 400 985" role="img" aria-labelledby="title desc">
 <title id="title">Synthetic $25M allocation versus $22M actual issuance</title>
-<desc id="desc">Net USD millions and cost per net dollar raised. MSTR cost 0.84, scenario 24.88, actual 22.00; STRC cost 1.21, scenario 0.00, actual 0.00; STRD cost 1.01, scenario 0.00, actual 0.00; STRF cost 1.01, scenario 0.00, actual 0.00; STRK cost 0.89, scenario 0.13, actual 0.00. Actual October 12–18, 2026. Scenario replay, not a backtest.</desc>
+<desc id="desc">Net USD millions and cost per net dollar raised. MSTR cost 0.84, scenario 24.88, actual 22.00; STRC cost 1.21, scenario 0.00, actual 0.00; STRD cost 1.01, scenario 0.00, actual 0.00; STRF cost 1.01, scenario 0.00, actual 0.00; STRK cost 0.89, scenario 0.13, actual 0.00. The $25M target is illustrative, not a filed or planned raise. Actual October 12–18, 2026. Scenario replay, not a backtest.</desc>
 <style>text{font-family:'IBM Plex Sans',sans-serif;font-size:20px;fill:#111214}.note{font-size:18px;fill:#52545A}.head{font-weight:600}</style>
-<rect width="400" height="925" fill="#F5F5EF"/>
+<rect width="400" height="985" fill="#F5F5EF"/>
 <text x="20" y="40" class="head">Synthetic $25M allocation</text>
 <text x="20" y="70" class="head">versus $22M actual issuance</text>
 <text x="20" y="108" class="note">Decision: October 9, 2026</text>
@@ -28,8 +28,10 @@
 <text x="20" y="710" class="note">Actual: October 12–18, 2026</text>
 <text x="20" y="740" class="note">SEC October 19 8-K</text>
 <text x="20" y="770" class="note">Synthetic mNAV, yields, fees and limits.</text>
-<text x="20" y="800" class="note">Source: examples/result.json</text>
-<text x="20" y="830" class="note">Rahil Bhavan · Source as-of Oct 21</text>
-<text x="20" y="860" class="note">Not a historical backtest or</text>
-<text x="20" y="890" class="note">investment recommendation.</text>
+<text x="20" y="800" class="note">The $25M target is illustrative,</text>
+<text x="20" y="830" class="note">not a filed or planned raise.</text>
+<text x="20" y="860" class="note">Source: examples/result.json</text>
+<text x="20" y="890" class="note">Rahil Bhavan · Source as-of Oct 21</text>
+<text x="20" y="920" class="note">Not a historical backtest or</text>
+<text x="20" y="950" class="note">investment recommendation.</text>
 </svg>

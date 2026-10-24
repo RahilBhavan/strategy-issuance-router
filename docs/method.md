@@ -36,7 +36,7 @@ Only after `recommend` completes does `evaluate` read actual target-period ATM n
 
 ## Demo interpretation
 
-`examples/synthetic.json` supplies an invented $85,000 BTC spot, 1.2 common mNAV, 8–12% preferred yields, a 10% perpetual discount rate and STRK conversion inputs (MSTR $200, 60% volatility, 10 years, 4.5%) dated October 9, 2026. None is an observed historical market input. Capacities come from SEC filings available by that date. Actual comparison values come from the October 19 filing for October 12–18: MSTR $22M net and no preferred ATM issuance.
+`examples/synthetic.json` sets a $25M net funding target. It is an illustrative amount, not a filed or planned raise. The file also supplies an invented $85,000 BTC spot, 1.2 common mNAV, 8–12% preferred yields, a 10% perpetual discount rate and STRK conversion inputs (MSTR $200, 60% volatility, 10 years, 4.5%) dated October 9, 2026. None is an observed historical market input. Capacities come from SEC filings available by that date. Actual comparison values come from the October 19 filing for October 12–18: MSTR $22M net and no preferred ATM issuance.
 
 The router now issues $24.875M net of common (stopped by its $25M gross user limit) and $0.125M of STRK (the rest of the target). The earlier one-year proxy issued $3.11M of common and $21.89M of STRK, STRD and STRF. The new allocation agrees with the actual week's choice of common only, apart from the STRK remainder. This agreement comes from the stated inputs: at a discount rate above 12%, STRF and STRD would rank ahead of common again. One week with synthetic market inputs is a scenario replay, not evidence that the router predicts Strategy's choices.
 
