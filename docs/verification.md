@@ -10,7 +10,7 @@ python -m router --scenario examples/synthetic.json
 python scripts/render_result.py --check
 ```
 
-Current local result: **24 tests pass**. Two independent CLI processes match each
+Local result at the first review: **24 tests pass** (the current count is 45; see the reader-test model update below). Two independent CLI processes match each
 other and `examples/result.json` byte for byte. CI repeats tests, compilation,
 CLI result diff and generated-figure check, using pinned action SHAs, Python 3.14.0
 and read-only repository permissions. There are no runtime third-party packages
