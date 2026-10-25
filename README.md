@@ -47,6 +47,7 @@ Observed: **45 tests pass**. Two fresh CLI runs produce byte-identical output th
 - `figures/`, `scripts/`: generated result table and reproducibility checks.
 - `tests/`: rule, boundary, precision, financing and CLI regressions.
 - `docs/`: method, sources and verification.
+- `AGENTS.md`, `CLAUDE.md`, `DESIGN.md`, `design/`, `.githooks/`: instructions, design tokens and a pre-commit size check for the coding agents that work in this repository. The code does not use them.
 
 ## Documentation
 
